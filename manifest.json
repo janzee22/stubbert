@@ -1,0 +1,20 @@
+[
+  {
+    "guid": "efa3a80a-43c3-4a51-900d-dffbd1bd0ce0",
+    "name": "Stubbert",
+    "description": "Shows only category collections in a dedicated Categories library. Companion of the Stubbert app.",
+    "overview": "Scopes collection listings for a Categories library",
+    "owner": "janzee22",
+    "category": "General",
+    "versions": [
+      {
+        "version": "1.0.0.0",
+        "changelog": "https://github.com/janzee22/stubbert/releases/tag/v1.0.0",
+        "targetAbi": "12.1.0.0",
+        "sourceUrl": "https://github.com/janzee22/stubbert/releases/download/v1.0.0/Stubbert_1.0.0.0.zip",
+        "checksum": "ffa71d1e94e44871a226cdf8422dc6d6",
+        "timestamp": "2026-10-08T22:38:03Z"
+      }
+    ]
+  }
+]

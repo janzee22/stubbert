@@ -1,0 +1,13 @@
+{
+  "category": "General",
+  "guid": "efa3a80a-43c3-4a51-900d-dffbd1bd0ce0",
+  "name": "Stubbert",
+  "description": "Shows only category collections in a dedicated Categories library. Companion of the Stubbert app.",
+  "overview": "Scopes collection listings for a Categories library",
+  "owner": "janzee22",
+  "targetAbi": "12.1.0.0",
+  "version": "1.0.0.0",
+  "status": "Active",
+  "autoUpdate": false,
+  "assemblies": ["Jellyfin.Plugin.Stubbert.dll"]
+}

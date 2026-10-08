@@ -1,0 +1,35 @@
+# The format of data/config.yaml. The UI writes this file; you only need this to edit it by hand.
+# categoriesLibraryId: the boxsets library made by the setup in Settings.
+categoriesLibraryId: e679087c0457e175fbaee597d5d107ff
+schedule: { enabled: true, intervalMinutes: 60, syncOnStart: false, syncOnNewItems: true } # scheduled syncs apply; enabled: false = manual only
+categories:
+  - id: disney # stable slug; the state file maps it to the collection
+    name: Disney # unique across all categories (case-insensitive)
+    sortName: '01 Disney' # optional
+    overview: 'Walt Disney and Pixar.' # optional
+    poster: disney.jpg # optional, file in <data>/posters (.png, .jpg, .jpeg, .webp)
+    mediaTypes: [Movie, Series]
+    combine: any # how the rules combine: any | all
+    rules:
+      - type: studio # genre | studio | tag: exact, case-insensitive (the rule editor lists the values)
+        values: ['Walt Disney Pictures', 'Walt Disney Animation Studios']
+        quantifier: any # any | all of the values
+    children:
+      - id: pixar
+        name: Pixar
+        rules:
+          - type: studio
+            values: ['Pixar']
+  - id: horror
+    name: Horror
+    mediaTypes: [Movie]
+    combine: all
+    rules:
+      - type: genre
+        values: ['Horror']
+      - type: name # matched against the title and the original title
+        match: regex # contains | exact | regex
+        values: ['^Scary Movie']
+        negate: true
+        caseSensitive: false
+    children: [] # a category without rules matches nothing, but can hold children

@@ -1,0 +1,76 @@
+/* Utilities replace inline styles, so they keep inline priority: !important wins over every normal rule, like style={} did. */
+.gap-0 {
+  gap: 0 !important;
+}
+.gap-2 {
+  gap: 2px !important;
+}
+.gap-4 {
+  gap: var(--s-1) !important;
+}
+.gap-6 {
+  gap: 6px !important;
+}
+.gap-8 {
+  gap: var(--s-2) !important;
+}
+.gap-10 {
+  gap: 10px !important;
+}
+.gap-12 {
+  gap: var(--s-3) !important;
+}
+.gap-16 {
+  gap: var(--s-4) !important;
+}
+.gap-18 {
+  gap: 18px !important;
+}
+.gap-20 {
+  gap: var(--s-5) !important;
+}
+.gap-22 {
+  gap: 22px !important;
+}
+.grow {
+  flex: 1 !important;
+}
+.basis-full {
+  flex: 1 1 100% !important;
+}
+.min-w-0 {
+  min-width: 0 !important;
+}
+.self-start {
+  align-self: flex-start !important;
+}
+.self-center {
+  align-self: center !important;
+}
+.self-stretch {
+  align-self: stretch !important;
+}
+.items-start {
+  align-items: flex-start !important;
+}
+.items-center {
+  align-items: center !important;
+}
+.items-end {
+  align-items: flex-end !important;
+}
+.justify-center {
+  justify-content: center !important;
+}
+.justify-between {
+  justify-content: space-between !important;
+}
+.text-left {
+  text-align: left !important;
+}
+.text-center {
+  text-align: center !important;
+}
+.text-right {
+  text-align: right !important;
+}

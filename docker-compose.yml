@@ -1,0 +1,24 @@
+# stubbert:
+#   mkdir -p data && docker compose up -d
+# Then open http://<host>:8080: the first visit sets the password and connects Jellyfin.
+# ./data holds settings.json, config.yaml, state.json, posters/ and runs/.
+# The container runs as PUID:PGID (default 1000:1000); ./data must be writable by that user.
+services:
+  stubbert:
+    image: ghcr.io/janzee22/stubbert:latest
+    user: '${PUID:-1000}:${PGID:-1000}'
+    ports:
+      - '8080:8080'
+    # Optional. JELLYFIN_URL, JELLYFIN_API_KEY and UI_PASSWORD override what is set in the UI, which then can't
+    # change them.
+    # environment:
+    #   JELLYFIN_URL: http://192.168.1.10:8096
+    #   JELLYFIN_API_KEY: ${JELLYFIN_API_KEY}
+    #   UI_PASSWORD: ${UI_PASSWORD}
+    #   COOKIE_SECURE: "true"   # when served over HTTPS
+    #   TRUST_PROXY: "true"     # behind a reverse proxy
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+    # A running sync finishes before the container stops.
+    stop_grace_period: 2m

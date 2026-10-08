@@ -1,0 +1,7 @@
+dist
+data
+dev/data
+plugin
+test/fixtures
+package-lock.json
+*.md

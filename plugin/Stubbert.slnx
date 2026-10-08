@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Jellyfin.Plugin.Stubbert.Tests/Jellyfin.Plugin.Stubbert.Tests.csproj" />
+  <Project Path="Jellyfin.Plugin.Stubbert/Jellyfin.Plugin.Stubbert.csproj" />
+</Solution>

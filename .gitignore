@@ -1,0 +1,10 @@
+node_modules/
+dist/
+probe-output/
+data/
+.env
+*.log
+.env.dev
+design/current-ui/
+.DS_Store
+CLAUDE*.md

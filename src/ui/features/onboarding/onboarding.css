@@ -1,0 +1,74 @@
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-2);
+}
+.step__n {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  border: 2px solid var(--line-strong);
+  font-size: 13px;
+  flex: none;
+}
+.step--done {
+  background: var(--create-bg);
+  color: var(--create);
+}
+.step--done .step__n {
+  background: var(--create);
+  border-color: var(--create);
+  color: var(--surface);
+}
+.step--current {
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+.step--current .step__n {
+  background: var(--brand-ink);
+  color: var(--brand);
+  border-color: var(--brand-ink);
+}
+.step--error {
+  background: var(--fail-bg);
+  color: var(--fail);
+}
+.step--error .step__n {
+  background: var(--fail);
+  border-color: var(--fail);
+  color: var(--surface);
+}
+
+.page-center {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--s-9) var(--s-5) var(--s-10);
+  gap: var(--s-6);
+}
+
+.page-center__inner {
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+}
+
+@media (max-width: 699px) {
+  .sheet--form {
+    padding: var(--s-5);
+  }
+
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page-center {
+    padding: var(--s-6) var(--s-4) var(--s-7);
+  }
+}

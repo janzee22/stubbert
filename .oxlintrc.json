@@ -1,0 +1,150 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "react", "import", "vitest"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "error"
+  },
+  "rules": {
+    "eqeqeq": [
+      "error",
+      "always",
+      {
+        "null": "ignore"
+      }
+    ],
+    "no-empty": [
+      "error",
+      {
+        "allowEmptyCatch": false
+      }
+    ],
+    "no-nested-ternary": "error",
+    "prefer-const": "error",
+    "no-var": "error",
+    "curly": ["error", "multi-line"],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "react/jsx-key": "error",
+    "import/no-cycle": "error",
+    "import/no-duplicates": "error",
+    "typescript/consistent-type-imports": [
+      "error",
+      {
+        "fixStyle": "inline-type-imports"
+      }
+    ],
+    "typescript/no-explicit-any": "error",
+    "typescript/no-non-null-assertion": "error",
+    "typescript/array-type": [
+      "error",
+      {
+        "default": "array-simple"
+      }
+    ],
+    "unicorn/throw-new-error": "error",
+    "unicorn/prefer-node-protocol": "error",
+    "react/react-in-jsx-scope": "off",
+    "oxc/no-async-endpoint-handlers": "off",
+    "no-await-in-loop": "off",
+    "oxc/no-map-spread": "off",
+    "import/no-unassigned-import": [
+      "error",
+      {
+        "allow": ["**/*.css"]
+      }
+    ],
+    "react/set-state-in-effect": "off",
+    "react/exhaustive-effect-dependencies": "off",
+    "react/no-array-index-key": "off",
+    "max-lines": [
+      "error",
+      {
+        "max": 300,
+        "skipBlankLines": true
+      }
+    ]
+  },
+  "ignorePatterns": ["dist", "data", "dev/data", "plugin"],
+  "overrides": [
+    {
+      "files": ["src/ui/*.ts", "src/ui/*.tsx"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "regex": "^(\\.\\./){1}(server|sync|notify|core|config|jellyfin)/|^(\\.\\./){1}(data|posters|log|version)\\.js$",
+                "message": "The UI reaches the server only through src/shared (types) and lib/api.ts (calls)."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/ui/*/*.ts", "src/ui/*/*.tsx"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "regex": "^(\\.\\./){2}(server|sync|notify|core|config|jellyfin)/|^(\\.\\./){2}(data|posters|log|version)\\.js$",
+                "message": "The UI reaches the server only through src/shared (types) and lib/api.ts (calls)."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/ui/features/*/*.ts", "src/ui/features/*/*.tsx"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "regex": "^(\\.\\./){3}(server|sync|notify|core|config|jellyfin)/|^(\\.\\./){3}(data|posters|log|version)\\.js$",
+                "message": "The UI reaches the server only through src/shared (types) and lib/api.ts (calls)."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/ui/features/*/*/*.ts", "src/ui/features/*/*/*.tsx"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "regex": "^(\\.\\./){4}(server|sync|notify|core|config|jellyfin)/|^(\\.\\./){4}(data|posters|log|version)\\.js$",
+                "message": "The UI reaches the server only through src/shared (types) and lib/api.ts (calls)."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/notify/template/*.ts", "src/jellyfin/client.ts", "test/**", "dev/**"],
+      "rules": {
+        "max-lines": "off"
+      }
+    },
+    {
+      "files": ["test/**", "dev/**"],
+      "rules": {
+        "typescript/no-non-null-assertion": "off",
+        "unicorn/consistent-function-scoping": "off",
+        "vitest/no-standalone-expect": "off"
+      }
+    }
+  ]
+}

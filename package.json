@@ -1,0 +1,55 @@
+{
+  "name": "stubbert",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Web UI and scheduler for rule-based Jellyfin category collections (BoxSets).",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "dev": "node --import tsx dev/start.ts",
+    "dev:onboarding": "node --import tsx dev/start.ts --onboarding",
+    "dev:up": "node --import tsx dev/bootstrap.ts",
+    "dev:down": "docker compose -f dev/compose.yaml down",
+    "dev:reset": "docker compose -f dev/compose.yaml down && rm -rf dev/data .env.dev",
+    "dev:fresh": "npm run dev:reset && npm run dev:up",
+    "dev:plugin": "bash dev/install-plugin.sh",
+    "test": "vitest run",
+    "build": "npm run build:server && npm run build:ui",
+    "build:server": "esbuild src/server/main.ts --bundle --platform=node --format=esm --target=node24 --packages=external --outfile=dist/server/main.js",
+    "build:ui": "vite build",
+    "server": "node --env-file-if-exists=.env --import tsx src/server/main.ts",
+    "dev:server": "node --env-file=.env.dev --import tsx src/server/main.ts",
+    "ui:dev": "vite",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "oxlint --deny-warnings",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm test"
+  },
+  "devDependencies": {
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource-variable/figtree": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@types/node": "^24.19.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "esbuild": "^0.28.2",
+    "oxlint": "^1.86.0",
+    "prettier": "^3.9.9",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
+  },
+  "dependencies": {
+    "fastify": "^5.12.5",
+    "pino": "^10.4.0",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.5"
+  },
+  "license": "GPL-3.0-only"
+}

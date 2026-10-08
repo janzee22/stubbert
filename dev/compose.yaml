@@ -1,0 +1,16 @@
+# Disposable Jellyfin for testing the plugin and scripts. Everything it stores lives in dev/data/ (git-ignored).
+#   npm run dev:up      start, install the plugin, run the startup wizard, write .env.dev
+#   npm run dev:fresh   delete dev/data/ and start over
+# jellyfin-web: http://localhost:8096 (user dev / password dev). Reachable from other devices on the LAN too.
+name: stubbert-dev
+services:
+  jellyfin:
+    # Only a floating 12.1 tag is published (12.1.0 as of 2026-09); the real server runs 12.1.0.
+    image: jellyfin/jellyfin:12.1
+    ports:
+      - '8096:8096'
+    volumes:
+      - ./data/config:/config
+      - ./data/cache:/cache
+      - ./data/media:/media
+    restart: unless-stopped

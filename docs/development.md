@@ -40,7 +40,7 @@ By hand, `pack.sh` needs the .NET 10 SDK, `jq` and `zip`:
 
 ```sh
 bash plugin/pack.sh
-# → plugin/dist/Stubbert_<version>.zip, with the .dll and meta.json at the root
+# → plugin/dist/Stubbert_<version>.zip, with the .dll, meta.json and thumb.png at the root
 bash plugin/manifest.sh https://<host>/Stubbert_<version>.zip "What changed"
 # → manifest.json with the version, MD5 checksum and URL
 ```

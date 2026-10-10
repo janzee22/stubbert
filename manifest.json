@@ -6,6 +6,7 @@
     "overview": "Categories library and Recently added without upgrades",
     "owner": "janzee22",
     "category": "General",
+    "imageUrl": "https://raw.githubusercontent.com/janzee22/stubbert/main/plugin/thumb.png",
     "versions": [
       {
         "version": "1.0.1.0",

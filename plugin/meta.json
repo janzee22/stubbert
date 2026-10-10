@@ -9,5 +9,6 @@
   "version": "1.0.1.0",
   "status": "Active",
   "autoUpdate": false,
-  "assemblies": ["Jellyfin.Plugin.Stubbert.dll"]
+  "assemblies": ["Jellyfin.Plugin.Stubbert.dll"],
+  "imagePath": "thumb.png"
 }

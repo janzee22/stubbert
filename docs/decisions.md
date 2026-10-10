@@ -79,7 +79,10 @@ Found on the real 12.1.0 server, the dev server or in the 12.1 source. The spec 
     seeds the store the first time. Stored as `added-dates.json` in the plugin's data folder, written 5 s after
     the last change.
   - Sonarr's and Radarr's NFOs have no `<dateadded>`, so they can't overwrite the restored date.
-- The zip is flat (`.dll` + `meta.json` at the root): Jellyfin unzips a repository install into its own
+- **Image:** `plugin/thumb.png` (960×540, the avatar on its own orange; Jellyfin shows plugins on 16:9 cards).
+  Installed plugins read it through `imagePath` in `meta.json`; the catalog through `imageUrl` in `manifest.json`,
+  served from `main` like the manifest.
+- The zip is flat (`.dll`, `meta.json` and `thumb.png` at the root): Jellyfin unzips a repository install into its own
   `<name>_<version>` folder, so a folder inside the zip would sit one level too deep.
 
 ## Sync

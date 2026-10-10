@@ -2,6 +2,15 @@
 
 The app and the plugin share one version. The plugin's version has a fourth `.0` because Jellyfin wants one.
 
+## 1.1.0
+
+- **Recently added without upgrades (plugin):** when Radarr or Sonarr swaps in a better file, it keeps the date the
+  movie or episode was first added, so the upgrade doesn't show up as new. New episodes of old shows still do. Off
+  by default: turn it on under **Dashboard → Plugins → Stubbert**, where you also set after how many days a removed
+  title counts as new (30).
+- **Plugin image** in Jellyfin's plugin catalog and overview.
+- **README:** the features are grouped into categories, notifications and Recently added.
+
 ## 1.0.1
 
 - **Onboarding:** a new, optional last step marks the movies and episodes already in Jellyfin as announced, so

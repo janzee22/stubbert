@@ -35,7 +35,7 @@ Lint enforces two boundaries: `src/ui` can't import from `server/`, `sync/`, `no
 | `components/` | Shared primitives, one per file, imported through `components/index.ts`. |
 | `layout/` | Top bar, tab bar, mobile header, save bar, connection banner. |
 | `hooks/` | `useLoad` (fetch once, reload), `usePoll` (fetch on an interval), `useAction` (busy/error around a call). |
-| `lib/` | `api.ts` (every server call), `format.ts`, and the category tree: `tree.ts` (paths, move, indent), `draft.ts` (normalise, compact, diff), `describe.ts` (rule text). |
+| `lib/` | `api.ts` (every server call), `format.ts`, `clipboard.ts` (copy with a fallback for plain http), and the category tree: `tree.ts` (paths, move, indent), `draft.ts` (normalise, compact, diff), `describe.ts` (rule text). |
 | `state/` | React contexts: config draft, notification draft, status poll, posters, value lists, theme. |
 | `features/<page>/` | One folder per page with its components, pure helpers (`*.ts`) and its stylesheet. |
 

@@ -3,6 +3,7 @@ import { useOpenCategory } from '../../app/openCategory.js';
 import { Banner, ErrorText, Icon, PosterThumb, Segmented } from '../../components/index.js';
 import { useLoad } from '../../hooks/useLoad.js';
 import { api, type RunRecord } from '../../lib/api.js';
+import { copyText } from '../../lib/clipboard.js';
 import { duration, plural, when } from '../../lib/format.js';
 import { CategoryStatusBadge, RunStatusBadge, TRIGGERS } from './badges.js';
 import { usePlacements } from './ReportTable.js';
@@ -48,8 +49,7 @@ function RunLog({ run }: { run: RunRecord }) {
   const [copied, setCopied] = useState(false);
   const text = run.log.join('\n');
   const copy = async () => {
-    await navigator.clipboard.writeText(text);
-    setCopied(true);
+    setCopied(await copyText(text));
   };
   const download = () => {
     const url = URL.createObjectURL(new Blob([`${text}\n`], { type: 'text/plain' }));

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { copyText } from '../lib/clipboard.js';
 import { Icon } from './Icon.js';
 
 export function CopyField({ value, label }: { value: string; label: string }) {
@@ -10,7 +11,8 @@ export function CopyField({ value, label }: { value: string; label: string }) {
         type="button"
         className="btn btn--primary btn--sm"
         onClick={() => {
-          void navigator.clipboard?.writeText(value).then(() => {
+          void copyText(value).then((ok) => {
+            if (!ok) return;
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
           });

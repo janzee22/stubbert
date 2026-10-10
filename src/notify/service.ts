@@ -6,6 +6,7 @@ import { Delivery } from './delivery.js';
 import { DiscordError, type Attachment } from './discord.js';
 import { Ingest } from './ingest.js';
 import { announcedKeys, type NotifyItem } from './item.js';
+import { knownTitles } from './known.js';
 import type { RenderedEmbed } from './message.js';
 import type { PlannedMessage } from './plan.js';
 import { Runtime, type NotifyDeps } from './runtime.js';
@@ -166,6 +167,16 @@ export class NotifyService {
     return this.store.update((s) => {
       for (const k of keys) s.announced[k] = { title, at };
     });
+  }
+
+  // Titles already in Jellyfin before Stubbert ran, so their first upgrade isn't announced as new.
+  async markExisting(): Promise<{ movies: number; episodes: number }> {
+    const { keys, movies, episodes } = knownTitles(await this.#rt.jellyfin.libraryItems());
+    const at = this.#rt.isoNow();
+    await this.store.update((s) => {
+      for (const k of keys) s.announced[k] ??= { title: 'Already in the library', at };
+    });
+    return { movies, episodes };
   }
 
   #remember({ plan, context, imageItemId }: ComposedMessage) {

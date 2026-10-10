@@ -60,6 +60,11 @@ export function providerIds(get: (key: string) => unknown): ProviderIds {
   return ids;
 }
 
+// A movie's Name can end in " (year)", which titleOf adds again.
+export function movieName(name: string, year: number | null): string {
+  return year === null ? name : name.replace(new RegExp(`\\s*\\(${year}\\)$`), '') || name;
+}
+
 export function parseEvent(body: unknown, receivedAt: Date): ParsedEvent {
   if (typeof body !== 'object' || body === null || Array.isArray(body)) {
     throw new PayloadError('the body is not a JSON object');
@@ -79,9 +84,7 @@ export function parseEvent(body: unknown, receivedAt: Date): ParsedEvent {
   const rawName = text(f.get('name'));
   if (!rawName) throw new PayloadError('Name is missing');
   const year = int(f.get('year'));
-  // The webhook's Name for a movie can end in " (year)", which titleOf adds again.
-  const name =
-    year === null ? rawName : rawName.replace(new RegExp(`\\s*\\(${year}\\)$`), '') || rawName;
+  const name = movieName(rawName, year);
   const base = {
     id,
     name,

@@ -8,6 +8,7 @@ import { templateErrors, validatePreferences } from '../../notify/validate.js';
 import { activityView, settingsView, statusView } from '../../notify/views.js';
 import type {
   ActivityView,
+  MarkExistingResult,
   NotifyIssue,
   NotifySettingsView,
   NotifyStatusView,
@@ -106,6 +107,10 @@ export function notificationRoutes(app: FastifyInstance, ctx: RouteContext) {
     await upstream(() => notify.retry(req.params.id));
     return { sent: true };
   });
+
+  app.post('/api/notifications/announced/existing', async (): Promise<MarkExistingResult> =>
+    notify.markExisting(),
+  );
 
   app.post('/api/notifications/test', async () => upstream(() => notify.test()));
 

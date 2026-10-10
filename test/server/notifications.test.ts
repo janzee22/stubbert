@@ -302,6 +302,14 @@ describe('notification settings API', () => {
     expect(samples).toEqual([{ id: 'sample', label: 'Sample data' }]);
   });
 
+  it('marks the movies already in Jellyfin as announced', async () => {
+    fake.addMedia('Movie', 'Dune').ProviderIds = { Tmdb: '438631' };
+    fake.addMedia('Series', 'Severance');
+    const res = await post('/api/notifications/announced/existing');
+    expect(res.json()).toEqual({ movies: 1, episodes: 0 });
+    expect(store.state.announced['movie:tmdb:438631']).toBeTruthy();
+  });
+
   it('sends a test message and reports failing notifications in the status', async () => {
     await enable();
     expect((await post('/api/notifications/test')).statusCode).toBe(200);

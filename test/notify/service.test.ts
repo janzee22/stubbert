@@ -50,6 +50,7 @@ class FakeDiscord {
 class FakeJellyfin implements NotifyJellyfin {
   configured = true;
   episodes = new Map<string, BaseItemDto[]>();
+  library: BaseItemDto[] = [];
 
   async itemsByIds(ids: readonly string[]): Promise<BaseItemDto[]> {
     return ids.map((id) => ({
@@ -66,6 +67,10 @@ class FakeJellyfin implements NotifyJellyfin {
 
   async seasonEpisodes(seriesId: string, season: number): Promise<BaseItemDto[]> {
     return this.episodes.get(`${seriesId}#${season}`) ?? [];
+  }
+
+  async libraryItems(): Promise<BaseItemDto[]> {
+    return this.library;
   }
 
   async image() {
@@ -162,6 +167,50 @@ describe('NotifyService', () => {
       reason: 'announced',
       detail: 'Announced before. Looks like a quality upgrade.',
     });
+  });
+
+  it('treats titles marked as existing as announced, without sending anything', async () => {
+    jellyfin.library = [
+      {
+        Id: hex(901),
+        Name: 'Dune',
+        Type: 'Movie',
+        ProductionYear: 2024,
+        ProviderIds: { Tmdb: '1' },
+      },
+      {
+        Id: hex(902),
+        Name: 'Old Film (2024)',
+        Type: 'Movie',
+        ProductionYear: 2024,
+        ProviderIds: {},
+      },
+      { Id: hex(5), Name: 'Series 05', Type: 'Series', ProviderIds: { Tmdb: 't05' } },
+      {
+        Id: hex(903),
+        Name: 'Episode 2',
+        Type: 'Episode',
+        SeriesId: hex(5),
+        ParentIndexNumber: 1,
+        IndexNumber: 2,
+      },
+    ];
+    expect(await service.markExisting()).toEqual({ movies: 2, episodes: 1 });
+    expect(discord.sent).toHaveLength(0);
+    expect(await service.ingest(movie('Dune', '1'))).toBe('announced');
+    expect(await service.ingest(movie('Old Film'))).toBe('announced');
+    expect(await service.ingest(episode(5, 1, 2))).toBe('announced');
+    expect(await service.ingest(episode(5, 1, 3))).toBe('waiting');
+  });
+
+  it('keeps earlier announcements when marking existing titles', async () => {
+    await service.ingest(movie('Dune', '1'));
+    await service.sendNow();
+    const before = store.state.announced['movie:tmdb:1'];
+    jellyfin.library = [{ Id: hex(901), Name: 'Dune', Type: 'Movie', ProviderIds: { Tmdb: '1' } }];
+    now += 60_000;
+    await service.markExisting();
+    expect(store.state.announced['movie:tmdb:1']).toEqual(before);
   });
 
   it('tags the role above the embed in the same message', async () => {

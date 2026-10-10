@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { api } from '../../lib/api.js';
 import { Banner, BrandMark, ErrorText, Icon, Stubbert } from '../../components/index.js';
 import { useLoad } from '../../hooks/useLoad.js';
+import { ExistingStep } from './ExistingStep.js';
 import { JellyfinForm } from '../settings/JellyfinForm.js';
 import { PasswordForm } from '../settings/PasswordForm.js';
 import { SetupForm } from '../settings/SetupForm.js';
 import { compactConfig, normalizeConfig } from '../../lib/draft.js';
 
-const STEPS = ['password', 'jellyfin', 'plugin', 'library'] as const;
+const STEPS = ['password', 'jellyfin', 'plugin', 'library', 'existing'] as const;
 export type Step = (typeof STEPS)[number];
 
 const STEP_INFO: Record<Step, { short: string; title: string; intro: string }> = {
@@ -33,6 +34,12 @@ const STEP_INFO: Record<Step, { short: string; title: string; intro: string }> =
     title: 'Create the Categories library',
     intro:
       'Categories live in their own Jellyfin library. This step creates it, turns off online metadata for its collections (Jellyfin would otherwise replace your posters) and points the plugin at it.',
+  },
+  existing: {
+    short: 'Existing titles',
+    title: 'Mark existing titles as known',
+    intro:
+      'Optional. Stops Discord announcements for movies and episodes you already have when Jellyfin swaps in a better version.',
   },
 };
 
@@ -154,13 +161,13 @@ async function saveLibrary(libraryId: string) {
   );
 }
 
-function LibraryStep({ done }: { done: () => void }) {
+function LibraryStep({ next }: { next: () => void }) {
   return (
     <SetupForm
       applyLabel="Create the library"
       onApplied={async (id) => {
         await saveLibrary(id);
-        done();
+        next();
       }}
     />
   );
@@ -235,8 +242,9 @@ export function Onboarding({
           {step === 'password' && <PasswordStep next={next} onFailed={setFailed} />}
           {step === 'jellyfin' && <JellyfinStep next={next} onFailed={setFailed} back={back} />}
           {step === 'plugin' && <PluginStep next={next} onFailed={setFailed} />}
-          {step === 'library' && <LibraryStep done={onDone} />}
-          {(step === 'plugin' || step === 'library') && back && (
+          {step === 'library' && <LibraryStep next={next} />}
+          {step === 'existing' && <ExistingStep done={onDone} />}
+          {(step === 'plugin' || step === 'library' || step === 'existing') && back && (
             <div className="row">
               <button type="button" className="btn btn--ghost" onClick={back}>
                 <Icon name="chevronLeft" />

@@ -219,6 +219,17 @@ export class JellyfinClient {
     });
   }
 
+  // Movies, series and episodes with the fields notification keys need; series give episodes their ids.
+  async libraryItems(): Promise<BaseItemDto[]> {
+    const { items } = await this.#allItems<BaseItemDto>({
+      includeItemTypes: ['Movie', 'Series', 'Episode'],
+      recursive: true,
+      collapseBoxSetItems: false,
+      fields: ['ProviderIds'],
+    });
+    return items;
+  }
+
   async getItem(id: string) {
     const userId = await this.adminUserId();
     return this.call<BaseItemDto>('GET', `/Items/${id}`, { query: { userId } });

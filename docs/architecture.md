@@ -76,7 +76,8 @@ Jellyfin webhook ──► POST /hooks/jellyfin/:token ──► NotifyService.i
 
 `NotifyService` (`src/notify/service.ts`) is a thin façade over these modules; routes only call it. The
 notification routes (`routes/notifications.ts`) also use `views.ts` (API shapes), `validate.ts` and `preview.ts`
-(template preview with sample or real data). Every accepted new item also calls `SyncService.newItemsArrived()`,
+(template preview with sample or real data). `known.ts` turns the Jellyfin library into announced keys for
+the onboarding step that marks existing titles. Every accepted new item also calls `SyncService.newItemsArrived()`,
 which debounces a sync.
 
 ## State on disk

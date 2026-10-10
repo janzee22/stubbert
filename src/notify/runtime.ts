@@ -9,6 +9,7 @@ export interface NotifyJellyfin {
   itemsByIds(ids: readonly string[]): Promise<BaseItemDto[]>;
   ancestors(id: string): Promise<BaseItemDto[]>;
   seasonEpisodes(seriesId: string, season: number): Promise<BaseItemDto[]>;
+  libraryItems(): Promise<BaseItemDto[]>;
   image(
     id: string,
     type: 'Primary' | 'Backdrop',

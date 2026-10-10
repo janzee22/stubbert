@@ -7,6 +7,7 @@ import type {
   JellyfinCheck,
   Library,
   ManagedCollection,
+  MarkExistingResult,
   NotifyIssue,
   NotifySettingsRequest,
   NotifySettingsView,
@@ -147,6 +148,8 @@ export const api = {
       'POST',
       `/api/notifications/activity/${encodeURIComponent(id)}/retry`,
     ),
+  markExistingAnnounced: () =>
+    request<MarkExistingResult>('POST', '/api/notifications/announced/existing'),
   testDiscord: () => request<{ sentAt: string }>('POST', '/api/notifications/test'),
   notifySamples: (kind: MessageKind) =>
     request<SampleView[]>('GET', `/api/notifications/samples?kind=${kind}`),

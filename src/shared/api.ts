@@ -174,6 +174,11 @@ export interface NotifyStatusView {
   announced: number;
 }
 
+export interface MarkExistingResult {
+  movies: number;
+  episodes: number;
+}
+
 export type ActivityStatus = 'sent' | 'skipped' | 'failed' | 'off';
 export type ActivityReason =
   'announced' | 'bulk' | 'disabled' | 'filtered' | 'discord' | 'discord-404';

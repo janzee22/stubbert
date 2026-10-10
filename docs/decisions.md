@@ -130,6 +130,11 @@ Found on the real 12.1.0 server, the dev server or in the 12.1 source. The spec 
 - **Run setup again:** a bar appears when Jellyfin is unreachable, the key is rejected, the plugin is missing or a
   preflight fails. It reopens onboarding at the Jellyfin step and keeps the config; the old server's ids match
   nothing, so sync recreates collections (adopting by name).
+- **Last step marks existing titles as announced** (2026-10-10, optional, "Skip" leaves it). The announced check
+  only knows titles Stubbert itself announced, so the first quality upgrade of anything already in Jellyfin used to
+  be announced as new. It reads every movie, series and episode once and adds their keys with `??=`, so earlier
+  announcements keep their title and date. Not repeated later: titles added after setup get their keys when they
+  are announced or bulk-skipped. A reload on this step skips it, since the library is already set.
 
 ## UI
 

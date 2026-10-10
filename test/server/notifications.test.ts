@@ -2,7 +2,7 @@ import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import type { FastifyInstance, InjectOptions } from 'fastify';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DataDir } from '../../src/data.js';
 import { JellyfinClient } from '../../src/jellyfin/client.js';
 import { JellyfinHttp } from '../../src/jellyfin/http.js';
@@ -152,7 +152,8 @@ describe('Jellyfin webhook endpoint', () => {
       }),
     );
     expect(res.statusCode).toBe(202);
-    await new Promise((r) => setTimeout(r, 50));
+    // The hook answers 202 before ingesting, so wait for the batch instead of a fixed delay.
+    await vi.waitFor(() => expect(store.state.batch).not.toBeNull(), { timeout: 5000 });
     const status = (await get('/api/notifications/status')).json();
     expect(status.batch).toMatchObject({ titles: ['Dune (2021)'], items: 1 });
     expect(store.state.batch?.items[0]?.library).toEqual({ id: MOVIES_LIBRARY_ID, name: 'Movies' });

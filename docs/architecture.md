@@ -21,7 +21,7 @@ files under `DATA_DIR`. The C# plugin in `plugin/` runs inside Jellyfin and is a
 | `src/ui/` | React app built by Vite. Talks to the server only through `lib/api.ts`. | `shared/` |
 | `src/data.ts` | All file I/O under `DATA_DIR` except notifications (`notify/store.ts`). | `config/` |
 | `src/log.ts` | The `Logger` interface services take. In production it is the pino logger Fastify also uses. | — |
-| `plugin/` | Jellyfin plugin that makes the Categories library list only categories. | — |
+| `plugin/` | Jellyfin plugin that makes the Categories library list only categories, and optionally keeps upgrades out of Recently added (`AddedDates`). | — |
 | `dev/` | Disposable Jellyfin in Docker with test media, for local development. | — |
 
 Lint enforces two boundaries: `src/ui` can't import from `server/`, `sync/`, `notify/`, `core/`, `config/` or

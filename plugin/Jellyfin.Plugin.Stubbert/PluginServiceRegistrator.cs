@@ -10,6 +10,7 @@ public class PluginServiceRegistrator : IPluginServiceRegistrator
     public void RegisterServices(IServiceCollection serviceCollection, IServerApplicationHost applicationHost)
     {
         serviceCollection.AddSingleton<CategoryScope>();
+        serviceCollection.AddHostedService<AddedDatesService>();
         serviceCollection.Configure<MvcOptions>(options => options.Filters.Add<CategoryItemsFilter>());
     }
 }

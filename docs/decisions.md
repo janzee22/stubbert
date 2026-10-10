@@ -56,6 +56,29 @@ Found on the real 12.1.0 server, the dev server or in the 12.1 source. The spec 
   default library folder `<DataPath>/categories`; it takes no path from the request. Members, poster and metadata
   use the standard endpoints.
 - Without a `CategoriesLibraryId` the filter does nothing.
+- **Keep the date added on upgrades** (2026-10-10, option `KeepAddedDates`, default off, on the plugin's dashboard
+  page). "Recently added" (`/Items/Latest`) sorts on the movie's or episode's `DateCreated` only, and Radarr and
+  Sonarr upgrade by deleting the old file and moving in a new one (`UpgradeMediaFileService`). The new path gives a
+  new item with the new file's date. `AddedDatesService` remembers the first `DateCreated` per title and gives a
+  replacement that date back. Choices, all checked in the 12.1 source and on the dev server:
+  - **Key:** a movie's folder (stays the same across upgrades; provider ids are still empty at `ItemAdded` unless
+    the path holds `[tmdbid-…]`), or series + season + episode, so every new episode still counts as new. Movies
+    sharing one folder fall back to TMDb/IMDb ids, which only arrive with the metadata refresh.
+  - **Not the folder's file date:** on Linux .NET has no birth time (`pal_io.c`: "until we use statx()") and falls
+    back to the older of mtime and ctime, which a folder gets whenever a file in it changes.
+  - **Episode numbers** are only read from the file name during the refresh, after `ItemAdded`, so the service
+    calls `FillMissingEpisodeNumbersFromPath` itself.
+  - **`ItemUpdated` too:** a file replaced under the same name keeps its item, but the refresh resets `DateCreated`
+    to the new file's date (`UseFileCreationTimeForDateAdded`, on by default).
+  - **Alternate versions count:** while old and new sit side by side Jellyfin groups them as versions and resets
+    both dates. Two movie files in one folder without version naming briefly make it a mixed folder, so the movie
+    shows as new until the old file is gone; Radarr never leaves both files in place.
+  - **Order doesn't matter:** each title keeps its set of current item ids and only counts as gone once the set is
+    empty. After `ForgetAddedDatesAfterDays` (default 30) gone, a returning title counts as new.
+  - **Startup reconcile** rebuilds the id sets from the library (events can be missed while Jellyfin is down) and
+    seeds the store the first time. Stored as `added-dates.json` in the plugin's data folder, written 5 s after
+    the last change.
+  - Sonarr's and Radarr's NFOs have no `<dateadded>`, so they can't overwrite the restored date.
 - The zip is flat (`.dll` + `meta.json` at the root): Jellyfin unzips a repository install into its own
   `<name>_<version>` folder, so a folder inside the zip would sit one level too deep.
 

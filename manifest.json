@@ -2,8 +2,8 @@
   {
     "guid": "efa3a80a-43c3-4a51-900d-dffbd1bd0ce0",
     "name": "Stubbert",
-    "description": "Shows only category collections in a dedicated Categories library. Companion of the Stubbert app.",
-    "overview": "Scopes collection listings for a Categories library",
+    "description": "Shows only category collections in a dedicated Categories library, and can keep quality upgrades out of Recently added. Companion of the Stubbert app.",
+    "overview": "Categories library and Recently added without upgrades",
     "owner": "janzee22",
     "category": "General",
     "versions": [

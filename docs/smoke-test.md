@@ -19,5 +19,8 @@ it is easy to clean up.
 8. In jellyfin-web, add another movie to `zz-smoke` by hand. **Preview** lists it under *Removed*.
 9. Change the rule so it matches nothing. **Preview** shows `zz-smoke` as *skipped* by a guard.
 10. If you use the Streamyfin home row, check that it shows the categories.
-11. Clean up: select each `zz-smoke` category → **Delete collection in Jellyfin…**, then **Remove category…**,
+11. If you turned on **Keep the date added** (Dashboard → Plugins → Stubbert): let Radarr or Sonarr upgrade one
+    movie or episode. It doesn't appear at the top of **Recently added**, and the Jellyfin log shows
+    `[Stubbert] … was replaced; keeping its date added`.
+12. Clean up: select each `zz-smoke` category → **Delete collection in Jellyfin…**, then **Remove category…**,
     then **Save**. The `zz-smoke [boxset]` folders are gone from the Categories folder on disk.

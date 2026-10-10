@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Stubbert</title>
+</head>
+<body>
+    <div id="StubbertConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-checkbox">
+        <div data-role="content">
+            <div class="content-primary">
+                <form id="StubbertConfigForm">
+                    <h2>Recently added</h2>
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label class="emby-checkbox-label">
+                            <input id="KeepAddedDates" type="checkbox" is="emby-checkbox" />
+                            <span>Keep the date added when a file is replaced</span>
+                        </label>
+                        <div class="fieldDescription checkboxFieldDescription">
+                            A quality upgrade gets the date its movie or episode was first added, so it doesn't show up in Recently added again. Applies to every library.
+                        </div>
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="ForgetAddedDatesAfterDays">Forget a removed title after (days)</label>
+                        <input id="ForgetAddedDatesAfterDays" type="number" is="emby-input" min="1" step="1" />
+                        <div class="fieldDescription">
+                            A movie or episode that comes back after being gone longer than this counts as new.
+                        </div>
+                    </div>
+                    <button is="emby-button" type="submit" class="raised button-submit block emby-button">
+                        <span>Save</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            (function () {
+                var pluginId = 'efa3a80a-43c3-4a51-900d-dffbd1bd0ce0';
+                var page = document.querySelector('#StubbertConfigPage');
+
+                page.addEventListener('pageshow', function () {
+                    Dashboard.showLoadingMsg();
+                    ApiClient.getPluginConfiguration(pluginId).then(function (config) {
+                        page.querySelector('#KeepAddedDates').checked = !!config.KeepAddedDates;
+                        page.querySelector('#ForgetAddedDatesAfterDays').value = config.ForgetAddedDatesAfterDays || 30;
+                        Dashboard.hideLoadingMsg();
+                    });
+                });
+
+                page.querySelector('#StubbertConfigForm').addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    Dashboard.showLoadingMsg();
+                    // Load first so the categories library the app set stays as it is.
+                    ApiClient.getPluginConfiguration(pluginId).then(function (config) {
+                        config.KeepAddedDates = page.querySelector('#KeepAddedDates').checked;
+                        config.ForgetAddedDatesAfterDays = Math.max(1, parseInt(page.querySelector('#ForgetAddedDatesAfterDays').value, 10) || 30);
+                        ApiClient.updatePluginConfiguration(pluginId, config).then(function (result) {
+                            Dashboard.processPluginConfigurationUpdateResult(result);
+                        });
+                    });
+                    return false;
+                });
+            })();
+        </script>
+    </div>
+</body>
+</html>

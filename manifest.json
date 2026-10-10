@@ -9,6 +9,14 @@
     "imageUrl": "https://raw.githubusercontent.com/janzee22/stubbert/main/plugin/thumb.png",
     "versions": [
       {
+        "version": "1.1.0.0",
+        "changelog": "https://github.com/janzee22/stubbert/releases/tag/v1.1.0",
+        "targetAbi": "12.1.0.0",
+        "sourceUrl": "https://github.com/janzee22/stubbert/releases/download/v1.1.0/Stubbert_1.1.0.0.zip",
+        "checksum": "89c1047c8ad2e2c0b642db5581009e61",
+        "timestamp": "2026-10-10T01:54:24Z"
+      },
+      {
         "version": "1.0.1.0",
         "changelog": "https://github.com/janzee22/stubbert/releases/tag/v1.0.1",
         "targetAbi": "12.1.0.0",

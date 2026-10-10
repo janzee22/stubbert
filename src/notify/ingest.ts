@@ -47,8 +47,19 @@ export class Ingest {
     });
   }
 
+  clearRefused(): Promise<void> {
+    return this.rt.store.update((s) => {
+      s.ingest.refusedCount = 0;
+      s.ingest.firstRefusedAt = null;
+      s.ingest.lastRefusedAt = null;
+      s.ingest.refusedTokenHint = null;
+    });
+  }
+
   async accept(body: unknown): Promise<Accepted | string> {
     const received = this.rt.now();
+    // A call with the right token shows Jellyfin has the current URL, so earlier refusals are stale.
+    if (this.rt.store.state.ingest.refusedCount) await this.clearRefused();
     const event = parseEvent(body, received);
     if (event.kind === 'ignored') {
       await this.#countIgnored(event.reason);

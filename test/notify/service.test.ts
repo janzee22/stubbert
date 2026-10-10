@@ -355,6 +355,14 @@ describe('NotifyService', () => {
     expect(service.tokenMatches(token)).toBe(true);
     expect(store.state.ingest.refusedCount).toBe(0);
   });
+
+  it('forgets refused calls once a call with the right token arrives', async () => {
+    await service.refused('old-token-b19d');
+    expect(await service.ingest({ NotificationType: 'PlaybackStart' })).toBe(
+      'ignored (notification PlaybackStart)',
+    );
+    expect(store.state.ingest).toMatchObject({ refusedCount: 0, refusedTokenHint: null });
+  });
 });
 
 describe('NotifyStore', () => {

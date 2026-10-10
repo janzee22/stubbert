@@ -83,12 +83,7 @@ export class NotifyService {
   async rotateToken(): Promise<string> {
     const token = newToken();
     await this.store.saveSettings({ ...this.settings, webhookToken: token });
-    await this.store.update((s) => {
-      s.ingest.refusedCount = 0;
-      s.ingest.firstRefusedAt = null;
-      s.ingest.lastRefusedAt = null;
-      s.ingest.refusedTokenHint = null;
-    });
+    await this.#ingest.clearRefused();
     return token;
   }
 

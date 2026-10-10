@@ -280,6 +280,9 @@ Notifications, Template, Notif-states and the phone versions).
   before the token check, so anyone could spend the 60/min budget and make Jellyfin's real events get 429s. Now
   the token is checked first; a valid token is never limited, and over the limit a refused call gets 429 without
   writing the refused counter, which also caps those disk writes at 60/min.
+- **A call with the right token clears the refused counter** (2026-10-09). Before, only "New URL…" did, so one
+  stray call (a typo, a curl test) kept the Jellyfin step red for good. A valid call proves Jellyfin has the current
+  URL; if an old URL is still configured somewhere, its next call brings the banner back.
 - **The webhook token is masked in request logs** (2026-10-08, security review). Fastify logs `req.url` on every
   request, which put `/hooks/jellyfin/<token>` in `docker logs`. `buildApp` sets its own `req` serializer (same
   fields as Fastify's default) that logs `/hooks/jellyfin/…`.

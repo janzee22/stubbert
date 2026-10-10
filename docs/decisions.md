@@ -230,6 +230,11 @@ Notifications, Template, Notif-states and the phone versions).
   dashes, strings have `"` escaped as `\"` (unescaped on our side). Provider ids are `Provider_tmdb/imdb/tvdb` of the
   item itself; an episode has no series provider ids and no library, so both come from the Jellyfin API
   (`/Items?ids=` and `/Items/{id}/Ancestors` → CollectionFolder). The plugin waits for provider ids before it sends.
+- **Another plugin can swallow ItemAdded** (2026-10-09, seen on a real server). Jellyfin's `LibraryManager`
+  invokes the `ItemAdded` event as one multicast delegate inside one try/catch, so a handler that throws stops the
+  ones after it: "Error in ItemAdded event handler" in the Jellyfin log, and the Webhook plugin never queues the
+  item. Seen with Streamyfin's push notifications (`NullReferenceException`); other events still arrive. Nothing to
+  fix on our side; troubleshooting tells users to look for that log line.
 - **Hook route** `/hooks/jellyfin/{token}` lives outside `/api` (no login, no JSON content-type rule), in its own
   Fastify scope that reads every content type as text, 1 MB limit, 60 calls/min. It parses and validates
   synchronously (400 on bad bodies), answers 202 and ingests in the background. Raw payloads go to the debug log.

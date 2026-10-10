@@ -16,6 +16,7 @@
 | *Cannot reach Jellyfin at …* | The address is resolved inside this app's container. Use the host's IP, or put both containers on one Docker network and use the Jellyfin container's name. |
 | *The plugin is older than 0.2* | The default folder needs plugin 0.2. Install the new build, or enter a folder that exists. |
 | Notifications: the Jellyfin step stays grey | Jellyfin can't reach Stubbert's address, or the Webhook plugin isn't set up. Use an address Jellyfin's container can resolve, and tick *Item Added* and *Send All Properties*. |
+| Other events arrive, but new items never do | Another plugin crashes on new items, and Jellyfin then skips the Webhook plugin. Look for *Error in ItemAdded event handler* in the Jellyfin log: the stack trace names the plugin (seen with Streamyfin's push notifications). Update or disable that plugin. |
 | *N events refused* | Jellyfin calls an old webhook URL. Copy the current one into the Webhook plugin. |
 | *Discord doesn't know this webhook (404)* | The webhook was deleted in Discord. Make a new one and paste it; held messages are sent then. |
 | *Unreadable webhook payload* | *Send All Properties* is off in the Webhook plugin, or a custom template is set. Turn it on and clear the template. |

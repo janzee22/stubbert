@@ -6,7 +6,8 @@
 
 <p align="center">
   <b>The friendly usher for your Jellyfin library.</b><br>
-  Shows every title to the right category, and tells Discord when something new is playing.
+  Shows every title to the right category, tells Discord when something new is playing, and keeps upgrades out of
+  Recently added.
 </p>
 
 <p align="center">
@@ -16,9 +17,12 @@
 
 ---
 
-Stubbert sorts your movies and series into categories such as *Disney*, *Marvel* or *Horror*, using rules you set,
-and keeps them up to date as your library grows. They get their own **Categories** library in every Jellyfin app.
-When something new arrives, Stubbert can post it to Discord.
+Stubbert does three things for your Jellyfin server:
+
+- **Categories:** it sorts your movies and series into categories such as *Disney*, *Marvel* or *Horror*, using
+  rules you set, in their own **Categories** library in every Jellyfin app.
+- **Notifications:** it posts new movies and episodes to Discord, and stays quiet about upgrades and big imports.
+- **Recently added:** it keeps quality upgrades from showing up as new in Jellyfin's *Recently added*.
 
 <p align="center">
   <picture>
@@ -36,32 +40,50 @@ When something new arrives, Stubbert can post it to Discord.
 
 ## Features
 
-- 🎟️ **Categories as a library.** A *Categories* tile next to Movies and Shows in every Jellyfin app, with only your
+### 🎟️ Categories
+
+- **Categories as a library.** A *Categories* tile next to Movies and Shows in every Jellyfin app, with only your
   categories in it. They stay out of the normal Collections tab.
-- 🧩 **Rules, not hand-picking.** Match on genre, studio, tag or title (contains, exact or regex). Combine rules
-  with *any* or *all*, or exclude matches. New movies and series join the right categories on their own.
-- 🗂️ **Sub-categories.** Nest *Pixar* inside *Disney*, or *Slashers* inside *Horror*.
-- 🖼️ **Your own posters**, names, sort order and descriptions per category.
-- 👀 **Preview before anything changes.** See per category which titles would be added or removed, then sync, or
-  let it run on a schedule.
-- 🛡️ **Safety guards.** A category that would suddenly lose all or more than half of its items is skipped, so a
-  broken rule or a bad fetch can't empty it.
-- 🔔 **Discord notifications.** One tidy message per new movie, episode or whole season, with the poster. Bulk
-  imports and quality upgrades stay quiet, and every message is a template you can edit with a live preview.
-- 🔒 **Leaves your media alone.** It never writes tags or metadata to your movies and series. It only touches the
+- **Rules, not hand-picking.** Match on genre, studio, tag or title (contains, exact or regex). Combine rules with
+  *any* or *all*, or exclude matches. New movies and series join the right categories on their own.
+- **Sub-categories.** Nest *Pixar* inside *Disney*, or *Slashers* inside *Horror*.
+- **Your own posters**, names, sort order and descriptions per category.
+- **Preview before anything changes.** See per category which titles would be added or removed, then sync by hand,
+  on a schedule or as soon as new items arrive.
+- **Safety guards.** A category that would suddenly lose all or more than half of its items is skipped, so a broken
+  rule or a bad fetch can't empty it.
+- **Leaves your media alone.** It never writes tags or metadata to your movies and series. It only touches the
   collections it manages.
+
+### 🔔 Discord notifications
+
+- **One tidy message** per new movie, episode or whole season, with the poster and a link to Jellyfin.
+- **Quiet about the rest.** Quality upgrades, rescans and big imports don't post anything. Setup can mark what's
+  already in your library, so its first upgrade doesn't look new either.
+- **Your own messages.** Every message is a template you can edit, with a live preview in Discord style.
+- **Batched and reliable.** New items are gathered until things have been quiet for a few minutes, so a season
+  arrives as one message. Failed messages are retried, and held until you replace a deleted Discord webhook.
+
+### 🆕 Recently added without upgrades
+
+- **Upgrades keep their date.** When Radarr or Sonarr swaps in a better file, Jellyfin sees a new item and puts it
+  on top of *Recently added*. The plugin gives it back the date the title was first added.
+- **New episodes still count.** Each episode is tracked on its own, so a new episode of an old show still shows up.
+- **Opt-in.** Off by default; turn it on under **Dashboard → Plugins → Stubbert**. It only changes the date added
+  of replaced files. A title that's gone longer than 30 days (you can change this) counts as new when it comes back.
 
 ## How it works
 
-There are two parts:
+Stubbert has two parts: **the app**, a web UI in Docker, and **the plugin**, which runs inside Jellyfin.
 
-| Part | What it does |
-|---|---|
-| **The app** (Docker) | Web UI where you manage categories and rules. It previews changes and syncs them to Jellyfin, by hand or on a schedule. |
-| **The plugin** (Jellyfin) | Makes the *Categories* library list only your categories, and hides them from the normal Collections tab. |
+| Feature | The app | The plugin |
+|---|---|---|
+| 🎟️ Categories | You manage categories and rules. It previews changes and syncs them to Jellyfin as collections, by hand, on a schedule or when new items arrive. | Makes the *Categories* library list only your categories, and hides them from the normal Collections tab. |
+| 🔔 Notifications | Receives Jellyfin's events through the [Webhook plugin](https://github.com/jellyfin/jellyfin-plugin-webhook), and posts the new titles to Discord. | — |
+| 🆕 Recently added | — | Gives a replaced file the date its title was first added. |
 
-The plugin is needed because stock Jellyfin can't do this: every collection lands in the same built-in folder, and
-a collections library always shows all of them.
+The plugin is needed because stock Jellyfin can't do either: every collection lands in the same built-in folder, a
+collections library always shows all of them, and an upgraded file always counts as newly added.
 
 ## Quick start
 

@@ -2,6 +2,14 @@
 
 The app and the plugin share one version. The plugin's version has a fourth `.0` because Jellyfin wants one.
 
+## 1.0.1
+
+- **Onboarding:** a new, optional last step marks the movies and episodes already in Jellyfin as announced, so
+  their first quality upgrade no longer gets a Discord message as if it were new.
+- **Fix:** the copy buttons work again when the app is opened over plain http (for example `http://<lan-ip>`).
+- **Fix:** the warning about refused webhook calls now clears as soon as Jellyfin sends a call with the right token.
+- **Docs:** troubleshooting for new items that never arrive because another Jellyfin plugin crashes on them.
+
 ## 1.0.0
 
 First public release.

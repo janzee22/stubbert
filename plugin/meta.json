@@ -6,7 +6,7 @@
   "overview": "Scopes collection listings for a Categories library",
   "owner": "janzee22",
   "targetAbi": "12.1.0.0",
-  "version": "1.0.0.0",
+  "version": "1.0.1.0",
   "status": "Active",
   "autoUpdate": false,
   "assemblies": ["Jellyfin.Plugin.Stubbert.dll"]

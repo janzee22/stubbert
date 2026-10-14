@@ -24,6 +24,7 @@ describe('render', () => {
     expect(render('{{ item.name }} ({{ item.year }})', ctx)).toBe('Dune (2021)');
     expect(render('S{{ season.number | pad(2) }}', ctx)).toBe('S06');
     expect(render("{{ episodes | map(attribute='number') | join(', ') }}", ctx)).toBe('1, 2');
+    expect(render("{{ episodes | map(attribute='number') | range }}", ctx)).toBe('1, 2');
     expect(render('{{ episodes | length }}', ctx)).toBe('2');
     expect(render('{{ item.name | upper }} {{ item.name | lower }}', ctx)).toBe('DUNE dune');
     expect(render('{{ links.imdb | default("none") }}', ctx)).toBe('none');
@@ -33,6 +34,14 @@ describe('render', () => {
   it('truncates on a word boundary', () => {
     expect(render('{{ item.overview | truncate(20) }}', ctx)).toBe('A noble family…');
     expect(render('{{ item.name | truncate(20) }}', ctx)).toBe('Dune');
+  });
+
+  it('shortens number runs into ranges', () => {
+    const nums = { n: [4, 1, 2, 3, 7, 9, 10, 2, 'x'] };
+    expect(render('{{ n | range }}', nums)).toBe('1-4, 7, 9, 10');
+    expect(render('{{ n | range }}', { n: [1, 5, 6, 8, 10, 11, 12] })).toBe('1, 5, 6, 8, 10-12');
+    expect(render('{{ n | range(" / ") }}', nums)).toBe('1-4 / 7 / 9 / 10');
+    expect(render('{{ n | range }}', { n: [] })).toBe('');
   });
 
   it('prints null as nothing', () => {

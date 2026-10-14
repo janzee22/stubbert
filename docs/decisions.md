@@ -250,9 +250,10 @@ Notifications, Template, Notif-states and the phone versions).
   `src/notify/template` only reads own properties of plain data, has no calls or I/O, a 200 ms and 20 000-character
   limit, and gives line numbers and "did you mean" suggestions (Levenshtein over known paths). Supported: `{{ }}`,
   filters (truncate, pad, upper, lower, title, capitalize, trim, replace, default/d, join, length/count, first,
-  last, map, sort, string, int), if/elif/else, for/else with `loop`, `is defined/none/…`, comments, `{%- -%}`.
+  last, map, sort, range, string, int), if/elif/else, for/else with `loop`, `is defined/none/…`, comments, `{%- -%}`.
 - **Deviations from Jinja**: `none` prints as empty (not "None"); `default` also replaces null; `truncate` ends with
-  `…`. Lines that only hold tags are dropped (like trim_blocks + lstrip_blocks, but only for tag-only lines), so
+  `…`. `range` is our own: it turns a number list into `1-4, 7, 9` (sorted, deduplicated, non-numbers dropped; only runs of three or more collapse)
+  for episode lists. Lines that only hold tags are dropped (like trim_blocks + lstrip_blocks, but only for tag-only lines), so
   if-blocks leave no gaps and `{% if %}yes{% endif %}\nnext` keeps its newline.
 - **Unknown variables are found statically** against a full sample context per message kind, in every branch, not
   only the ones the sample takes. That sample doubles as "Sample data" in the preview.

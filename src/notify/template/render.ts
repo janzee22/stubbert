@@ -76,6 +76,24 @@ function list(v: Value): Value[] {
 }
 const order = (x: Value, y: Value) => str(x).localeCompare(str(y));
 
+function ranges(v: Value, sep: string): string {
+  const numbers = [...new Set(list(v).map((x) => num(x, NaN)))]
+    .filter(Number.isInteger)
+    .toSorted((x, y) => x - y);
+  const parts: string[] = [];
+  for (let i = 0; i < numbers.length; i++) {
+    const start = numbers[i] as number;
+    let end = i;
+    while (numbers[end + 1] === (numbers[end] as number) + 1) end++;
+    // A pair reads better as "5, 6" than "5-6"; only runs of three or more collapse.
+    if (end - i >= 2) {
+      parts.push(`${start}-${numbers[end]}`);
+      i = end;
+    } else parts.push(String(start));
+  }
+  return parts.join(sep);
+}
+
 export const FILTERS: Record<string, Filter> = {
   truncate: (v, a, k) =>
     truncate(
@@ -121,6 +139,7 @@ export const FILTERS: Record<string, Filter> = {
     return filter ? list(v).map((x) => filter(x, a.slice(1), {})) : list(v);
   },
   sort: (v) => list(v).toSorted(order),
+  range: (v, a, k) => ranges(v, str(k.d ?? a[0] ?? ', ')),
   string: (v) => str(v),
   int: (v) => Math.trunc(num(v, 0)),
 };

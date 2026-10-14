@@ -1,13 +1,7 @@
 import type { MessageKind, MessageTemplate } from '../shared/notify.js';
 
 const LINKS = `{% if links.tmdb or links.jellyfin %}
-Links:
-{% if links.tmdb %}
-[TMDb]({{ links.tmdb }})
-{% endif %}
-{% if links.jellyfin %}
-[Jellyfin]({{ links.jellyfin }})
-{% endif %}
+{% if links.tmdb %}[TMDb]({{ links.tmdb }}){% endif %}{% if links.tmdb and links.jellyfin %} · {% endif %}{% if links.jellyfin %}[Jellyfin]({{ links.jellyfin }}){% endif %}
 {% endif %}`;
 
 const OVERVIEW = `{% if item.overview %}
@@ -34,7 +28,7 @@ ${LINKS}`,
   },
   episodes: {
     title: '{{ series.name }}: {{ episodes | length }} new episodes',
-    content: `Season {{ season.number }} · episodes {{ episodes | map(attribute='number') | join(', ') }}
+    content: `Season {{ season.number }} · episodes {{ episodes | map(attribute='number') | range }}
 
 ${LINKS}`,
     image: 'poster',

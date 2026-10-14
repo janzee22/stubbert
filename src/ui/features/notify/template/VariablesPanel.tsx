@@ -50,7 +50,7 @@ export function VariablesPanel({
       </ul>
       <p className="help">
         Loop over episodes with <code>{'{% for e in episodes %}…{% endfor %}'}</code>. Filters:
-        truncate, pad, upper, lower, default, join, map, length.
+        truncate, pad, upper, lower, default, join, range, map, length.
       </p>
     </section>
   );

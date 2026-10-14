@@ -199,7 +199,7 @@ describe('templates', () => {
     });
     expect(embed.title).toBe("The Handmaid's Tale Season 6 is available");
     expect(embed.description).toBe(
-      'Links:\n[TMDb](https://www.themoviedb.org/tv/69478-the-handmaid-s-tale)\n[Jellyfin](http://jellyfin:8096/web/#/details?id=4f1c)',
+      '[TMDb](https://www.themoviedb.org/tv/69478-the-handmaid-s-tale) · [Jellyfin](http://jellyfin:8096/web/#/details?id=4f1c)',
     );
     expect(embed.color).toBe(0xffbe2e);
   });
@@ -215,6 +215,17 @@ describe('templates', () => {
     };
     const ctx = buildContext(msg, { serverName: null, linkBase: null });
     expect(renderMessage('movie', DEFAULT_TEMPLATES.movie, ctx).embed.description).toBe('');
+  });
+
+  it('leaves out the separator when only one link exists', () => {
+    const ctx = {
+      ...sampleContext('season'),
+      item: { name: 'Season 6', year: 2017, overview: null, type: 'season' },
+    };
+    const links = { tmdb: null, imdb: null, jellyfin: 'http://jf/web' };
+    expect(
+      renderMessage('season', DEFAULT_TEMPLATES.season, { ...ctx, links }).embed.description,
+    ).toBe('[Jellyfin](http://jf/web)');
   });
 
   it('falls back to the default template when rendering fails', () => {

@@ -250,7 +250,7 @@ describe('NotifyService', () => {
     expect(discord.titles()).toEqual(['Series 07: 3 new episodes']);
     const embeds = discord.sent[0]?.payload.embeds as Array<{ description: string }> | undefined;
     const description = embeds?.[0]?.description;
-    expect(description).toContain('Season 1 · episodes 1, 2, 3');
+    expect(description).toContain('Season 1 · episodes 1-3');
     expect(description).toContain('https://www.themoviedb.org/tv/t07/season/1');
   });
 

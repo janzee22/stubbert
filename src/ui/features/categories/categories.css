@@ -450,6 +450,17 @@
   box-shadow: var(--sh-3);
 }
 
+/* Tiles stand on the shelf (flex-end), so meta of varying length would lift posters to
+   different heights. A fixed two-line box keeps every poster bottom level. */
+.shelf .walltile__meta {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  min-height: 2lh;
+}
+
 .walltile:focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 6px;

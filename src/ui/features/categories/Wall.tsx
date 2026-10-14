@@ -5,6 +5,7 @@ import { flatten, pathKey, type Category, type FlatNode } from '../../lib/tree.j
 
 function WallTile({ node, large, onOpen }: { node: FlatNode; large: boolean; onOpen: () => void }) {
   const { category } = node;
+  const rules = describeRules(category);
   return (
     <button type="button" className="walltile" onClick={onOpen}>
       <PosterThumb file={category.poster} name={category.name} size={large ? 'xl' : 'lg'}>
@@ -17,7 +18,9 @@ function WallTile({ node, large, onOpen }: { node: FlatNode; large: boolean; onO
       </PosterThumb>
       <span className="col gap-0">
         <span className="walltile__name">{category.name || 'Unnamed'}</span>
-        <span className="walltile__meta">{describeRules(category)}</span>
+        <span className="walltile__meta" title={rules}>
+          {rules}
+        </span>
       </span>
     </button>
   );

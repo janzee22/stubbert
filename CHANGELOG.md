@@ -2,6 +2,13 @@
 
 The app and the plugin share one version. The plugin's version has a fourth `.0` because Jellyfin wants one.
 
+## 1.2.0
+
+- **Shorter episode lists:** a new `range` template filter turns runs of three or more numbers into a range, so
+  "episodes 1, 2, 3, 4, 7" becomes "episodes 1-4, 7". The default template for several new episodes uses it.
+- **Links on one line:** the default templates show `TMDb · Jellyfin` on a single line instead of under a
+  "Links:" heading. Templates you changed yourself stay as they are.
+
 ## 1.1.0
 
 - **Recently added without upgrades (plugin):** when Radarr or Sonarr swaps in a better file, it keeps the date the

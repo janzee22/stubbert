@@ -2,6 +2,11 @@
 
 The app and the plugin share one version. The plugin's version has a fourth `.0` because Jellyfin wants one.
 
+## 1.2.1
+
+- **Fix:** posters on the category wall line up again. A long rule summary no longer pushes its poster higher
+  than the others; it is cut off after two lines, and hovering shows the whole text.
+
 ## 1.2.0
 
 - **Shorter episode lists:** a new `range` template filter turns runs of three or more numbers into a range, so

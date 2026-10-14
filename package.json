@@ -1,6 +1,6 @@
 {
   "name": "stubbert",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "description": "Web UI and scheduler for rule-based Jellyfin category collections (BoxSets).",
   "type": "module",

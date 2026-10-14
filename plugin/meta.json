@@ -6,7 +6,7 @@
   "overview": "Categories library and Recently added without upgrades",
   "owner": "janzee22",
   "targetAbi": "12.1.0.0",
-  "version": "1.2.0.0",
+  "version": "1.2.1.0",
   "status": "Active",
   "autoUpdate": false,
   "assemblies": ["Jellyfin.Plugin.Stubbert.dll"],
